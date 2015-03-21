@@ -12,6 +12,10 @@ To run:
 
 If you run the script then the example will load the Kaggle Titanic competition's `train.csv` file and will draw a single-variable plot.
 
-Examples:
+## Examples
+
+Using the Kaggle Titanic example http://www.kaggle.com/c/titanic-gettingStarted data set we can draw each variable independently and also ask it to draw if each variable is dependent on a boolean (in the case against `Survived`): 
 
 ![Single variable](https://github.com/ianozsvald/dataframe_visualiser/blob/master/example_titanic_single_variable.png)
+
+![Dependent variable](https://github.com/ianozsvald/dataframe_visualiser/blob/master/example_titanic_dependent_variable.png)
