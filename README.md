@@ -11,3 +11,7 @@ To run:
     >>> visualise_dataframe.summarise(df, dependent_col=xxx)  # draw dependent-variable plot
 
 If you run the script then the example will load the Kaggle Titanic competition's `train.csv` file and will draw a single-variable plot.
+
+Examples:
+
+![Single variable](https://github.com/ianozsvald/dataframe_visualiser/blob/master/example_titanic_single_variable.png)
