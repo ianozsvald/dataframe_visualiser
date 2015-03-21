@@ -8,7 +8,7 @@ To run:
     >>> # assuming IPython and Python 3.4
     >>> import visualise_dataframe
     >>> visualise_dataframe.summarise(df)  # draw single-variable plot
-    >>> visualise_dataframe.summarise(df, dependent_col=xxx)  # draw dependent-variable plot
+    >>> visualise_dataframe.summarise(df, dependent_col='some_col_name_in_df')  # draw dependent-variable plot
 
 If you run the script then the example will load the Kaggle Titanic competition's `train.csv` file and will draw a single-variable plot.
 
