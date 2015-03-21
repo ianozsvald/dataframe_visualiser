@@ -118,9 +118,8 @@ if __name__ == "__main__":
     if True:
         # DEMO work with Kaggle Titanic training data
         df = pd.io.parsers.read_table("kaggle_titanic_train.csv", sep=",")
-        #fig = summarise(df)
-        #df = df[:40]
-        cells = show_cells(df)
+        fig = summarise(df)
+        #cells = show_cells(df)
 
     if False:
         # DEMO work with Kaggle Titanic training data and a dependent variable
