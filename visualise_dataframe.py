@@ -1,9 +1,9 @@
+import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
 import math
-import time
 
 
 def summarise(df, subsample_rows=50, dependent_col=None):
@@ -81,11 +81,46 @@ def summarise(df, subsample_rows=50, dependent_col=None):
     return f
 
 
+def show_cells(df, subsample_rows=40):
+    """Try to give a "view from a balloon" on the whole dataframe"""
+    if len(df) > subsample_rows:
+        print("Sampling {} rows from df".format(subsample_rows))
+        df = df.ix[np.random.choice(df.index, subsample_rows, replace=False)]
+    cells = np.zeros((df.shape))
+    for col_nbr, dtype in enumerate(df.dtypes):
+        colour = None
+        if dtype == np.int_:
+            colour = 0
+        if dtype == np.float_:
+            colour = 1
+        if dtype == np.bool_:
+            colour = 2
+        if dtype == np.object_:
+            colour = 3
+        # TODO deal with timedelta64/datetime64?
+        if colour >= 0:
+            cells[:, col_nbr] = colour
+        else:
+            print("NOTE - unhandled", col_nbr, dtype, df.columns[col_nbr])
+
+        col_name = df.columns[col_nbr]
+        col = df[col_name]
+        if col.dtype != np.object_:
+            for row_nbr, value in enumerate(col):
+                if np.isnan(col.values[row_nbr]):
+                    cells[row_nbr, col_nbr] = 10
+    plt.matshow(cells, cmap=matplotlib.cm.Spectral_r)
+    plt.xticks(range(len(df.columns)), df.columns, rotation=45, ha="left")
+    return cells
+
+
 if __name__ == "__main__":
     if True:
         # DEMO work with Kaggle Titanic training data
         df = pd.io.parsers.read_table("kaggle_titanic_train.csv", sep=",")
-        fig = summarise(df)
+        #fig = summarise(df)
+        #df = df[:40]
+        cells = show_cells(df)
 
     if False:
         # DEMO work with Kaggle Titanic training data and a dependent variable
@@ -111,13 +146,14 @@ if __name__ == "__main__":
             #df['Member growth'].cumsum().plot()
 
 
-    # Try to maximize the window and use a tight_layout
-    # but NOTE you might have to do tight_layout() manually to actually make it
-    # render cleanly (it is very OS/system/speed dependent!)
-    if plt.get_backend() == "Qt4Agg":
-        # maximize: http://stackoverflow.com/a/22418354/18688
-        figManager = plt.get_current_fig_manager()
-        #was_maximized = figManager.window.isMaximized()
-        figManager.window.showMaximized()
-        # ask for a tight_layout, now the window is maximised
-        plt.tight_layout()
+    if False:
+        # Try to maximize the window and use a tight_layout
+        # but NOTE you might have to do tight_layout() manually to actually make it
+        # render cleanly (it is very OS/system/speed dependent!)
+        if plt.get_backend() == "Qt4Agg":
+            # maximize: http://stackoverflow.com/a/22418354/18688
+            figManager = plt.get_current_fig_manager()
+            #was_maximized = figManager.window.isMaximized()
+            figManager.window.showMaximized()
+            # ask for a tight_layout, now the window is maximised
+            plt.tight_layout()
