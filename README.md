@@ -14,8 +14,10 @@ If you run the script then the example will load the Kaggle Titanic competition'
 
 ## Examples
 
-Using the Kaggle Titanic example http://www.kaggle.com/c/titanic-gettingStarted data set we can draw each variable independently and also ask it to draw if each variable is dependent on a boolean (in the case against `Survived`): 
+Using the Kaggle Titanic example http://www.kaggle.com/c/titanic-gettingStarted data set we can draw each variable independently: 
 
 ![Single variable](https://github.com/ianozsvald/dataframe_visualiser/blob/master/example_titanic_single_variable.png)
+
+We can also ask it to draw each variable when dependent on a boolean (in the case against `Survived`): 
 
 ![Dependent variable](https://github.com/ianozsvald/dataframe_visualiser/blob/master/example_titanic_dependent_variable.png)
