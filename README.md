@@ -30,3 +30,7 @@ We can also ask it to draw each variable when dependent on a boolean (in the cas
 Finally with `show_cells` we can subsample a set of rows and show their dtypes and whether they're NaN or not, to get an idea about the relationship between NaNs and other data:
 
 ![show_cells](https://github.com/ianozsvald/dataframe_visualiser/blob/master/example_titanic_show_cells.png)
+
+## TODO
+
+ * don't subsample df and then analyse, instead analyse before subsampling to count NaNs in full columns

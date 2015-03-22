@@ -83,9 +83,13 @@ def summarise(df, subsample_rows=50, dependent_col=None):
 
 def show_cells(df, subsample_rows=40):
     """Try to give a "view from a balloon" on the whole dataframe"""
+    rows_subsampled = False
     if len(df) > subsample_rows:
         print("Sampling {} rows from df".format(subsample_rows))
-        df = df.ix[np.random.choice(df.index, subsample_rows, replace=False)]
+        subsampled_row_ids = np.random.choice(df.index, subsample_rows, replace=False)
+        subsampled_row_ids.sort()
+        df = df.ix[subsampled_row_ids]
+        rows_subsampled = True
     cells = np.zeros((df.shape))
     for col_nbr, dtype in enumerate(df.dtypes):
         colour = None
@@ -101,17 +105,32 @@ def show_cells(df, subsample_rows=40):
         if colour >= 0:
             cells[:, col_nbr] = colour
         else:
-            print("NOTE - unhandled", col_nbr, dtype, df.columns[col_nbr])
+            print("WARNING - unhandled dtype (ignored):", col_nbr, dtype, df.columns[col_nbr])
 
         col_name = df.columns[col_nbr]
         col = df[col_name]
+        # TODO clean this up, was too tired to think when writing it...
+        # surely I can do this in a vectorised way?
         if col.dtype != np.object_:
+            # set NaN values to a special colour
             for row_nbr, value in enumerate(col):
                 if np.isnan(col.values[row_nbr]):
                     cells[row_nbr, col_nbr] = 10
-    plt.matshow(cells, cmap=matplotlib.cm.Spectral_r)
-    plt.xticks(range(len(df.columns)), df.columns, rotation=45, ha="left")
-    return cells
+
+    # draw grid of few rows and all df columns
+    fig = plt.figure()
+    plt.imshow(cells, cmap=matplotlib.cm.Spectral_r, interpolation="none")
+    plt.xticks(range(len(df.columns)), df.columns, rotation=90, ha="center", va="bottom", weight="bold")
+    plt.yticks(range(len(df)), subsampled_row_ids)
+    plt.ylabel("Row Id from dataframe")
+    plt.xlabel("Columns")
+    plt.grid(b=False)  # disable grid
+
+    title = "dtype's of rows from dataframe"
+    if rows_subsampled:
+        title += " (subsampled)"
+    plt.title(title)
+    return cells, fig
 
 
 if __name__ == "__main__":
@@ -119,7 +138,8 @@ if __name__ == "__main__":
         # DEMO work with Kaggle Titanic training data
         df = pd.io.parsers.read_table("kaggle_titanic_train.csv", sep=",")
         fig = summarise(df)
-        #cells = show_cells(df)
+        #df['Survived_'] = df['Survived'].astype(np.bool_)
+        #cells, fig = show_cells(df)
 
     if False:
         # DEMO work with Kaggle Titanic training data and a dependent variable
