@@ -34,3 +34,5 @@ Finally with `show_cells` we can subsample a set of rows and show their dtypes a
 ## TODO
 
  * don't subsample df and then analyse, instead analyse before subsampling to count NaNs in full columns
+ * add legend to show_cells to identify the colours!
+ * consider analysing text cells to show e.g. length of each cell, two tone for binary categories etc for show_cells
